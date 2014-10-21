@@ -1,0 +1,14 @@
+name: kubernetes-master
+summary: Container Cluster Management Master
+description: |
+  Provides a kubernetes api endpoint, scheduler for managing containers.
+provides:
+  # only real difference is that we want to ssl secure client, ideally
+  # we'd do both but not supported afaics.
+  client-api:
+    interface: kubernetes-client
+  minions-api:
+    interface: kubernetes-api
+requires:
+  etcd:
+    interface: etcd

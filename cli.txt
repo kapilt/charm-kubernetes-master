@@ -1,0 +1,80 @@
+API Server
+----------
+./apiserver -h
+Usage of ./apiserver:
+  -address=127.0.0.1: The IP address on to serve on (set to 0.0.0.0 for all interfaces)
+  -allow_privileged=false: If true, allow privileged containers.
+  -alsologtostderr=false: log to standard error as well as files
+  -api_prefix="/api": The prefix for API requests on the server. Default '/api'.
+  -cloud_config="": The path to the cloud provider configuration file.  Empty string for no configuration file.
+  -cloud_provider="": The provider for cloud services.  Empty string for no provider.
+  -cors_allowed_origins=[]: List of allowed origins for CORS, comma separated.  An allowed origin can be a regular expression to support subdomain matching.  If this list is empty CORS will not be enabled.
+  -enable_logs_support=true: Enables server endpoint for log collection
+  -etcd_config="": The config file for the etcd client. Mutually exclusive with -etcd_servers.
+  -etcd_servers=[]: List of etcd servers to watch (http://ip:port), comma separated. Mutually exclusive with -etcd_config
+  -event_ttl=48h0m0s: Amount of time to retain events. Default 2 days.
+  -health_check_minions=true: If true, health check minions and filter unhealthy ones. Default true.
+  -log_backtrace_at=:0: when logging hits line file:N, emit a stack trace
+  -log_dir="": If non-empty, write log files in this directory
+  -log_flush_frequency=5s: Maximum number of seconds between log flushes
+  -logtostderr=false: log to standard error instead of files
+  -machines=[]: List of machines to schedule onto, comma separated.
+  -minion_cache_ttl=30s: Duration of time to cache minion information. Default 30 seconds.
+  -minion_port=10250: The port at which kubelet will be listening on the minions.
+  -minion_regexp="": If non empty, and -cloud_provider is specified, a regular expression for matching minion VMs.
+  -node_memory=3221225472: The amount of memory (in bytes) provisioned on each node
+  -node_milli_cpu=1000: The amount of MilliCPU provisioned on each node
+  -port=8080: The port to listen on. Default 8080
+  -stderrthreshold=0: logs at or above this threshold go to stderr
+  -storage_version="": The version to store resources with. Defaults to server preferred
+  -token_auth_file="": If set, the file that will be used to secure the API server via token authentication.
+  -v=0: log level for V logs
+  -version=false: Print version information and quit
+  -vmodule=: comma-separated list of pattern=N settings for file-filtered logging
+
+Controller
+----------
+
+./controller-manager -h
+Usage of ./controller-manager:
+  -address=127.0.0.1: The IP address to serve on (set to 0.0.0.0 for all interfaces)
+  -alsologtostderr=false: log to standard error as well as files
+  -api_version="": The API version to use when talking to the server
+  -certificate_authority="": Path to a cert. file for the certificate authority
+  -client_certificate="": Path to a client key file for TLS.
+  -client_key="": Path to a client key file for TLS.
+  -insecure_skip_tls_verify=false: If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure.
+  -log_backtrace_at=:0: when logging hits line file:N, emit a stack trace
+  -log_dir="": If non-empty, write log files in this directory
+  -log_flush_frequency=5s: Maximum number of seconds between log flushes
+  -logtostderr=false: log to standard error instead of files
+  -master="": The address of the Kubernetes API server
+  -port=10252: The port that the controller-manager's http service runs on
+  -stderrthreshold=0: logs at or above this threshold go to stderr
+  -v=0: log level for V logs
+  -version=false: Print version information and quit
+  -vmodule=: comma-separated list of pattern=N settings for file-filtered logging
+
+
+Scheduler
+---------
+
+./scheduler -h
+Usage of ./scheduler:
+  -address=127.0.0.1: The IP address to serve on (set to 0.0.0.0 for all interfaces)
+  -alsologtostderr=false: log to standard error as well as files
+  -api_version="": The API version to use when talking to the server
+  -certificate_authority="": Path to a cert. file for the certificate authority
+  -client_certificate="": Path to a client key file for TLS.
+  -client_key="": Path to a client key file for TLS.
+  -insecure_skip_tls_verify=false: If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure.
+  -log_backtrace_at=:0: when logging hits line file:N, emit a stack trace
+  -log_dir="": If non-empty, write log files in this directory
+  -log_flush_frequency=5s: Maximum number of seconds between log flushes
+  -logtostderr=false: log to standard error instead of files
+  -master="": The address of the Kubernetes API server
+  -port=10251: The port that the scheduler's http service runs on
+  -stderrthreshold=0: logs at or above this threshold go to stderr
+  -v=0: log level for V logs
+  -version=false: Print version information and quit
+  -vmodule=: comma-separated list of pattern=N settings for file-filtered logging
