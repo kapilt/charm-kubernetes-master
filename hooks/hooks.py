@@ -12,7 +12,9 @@ hooks = hookenv.Hooks()
 
 @hooks.hook('config-changed')
 def config_changed():
-    print "config-changed"
+    """
+    Called whenever our service configuration changes.
+    """
     relation_changed()
 
 
@@ -21,32 +23,35 @@ def relation_changed():
     template_data = get_template_data()
 
     # Check required keys
-    missing = False
-    for k in ('etcd_servers', 'minions'):
+    for k in ('etcd_servers',):
         if not template_data.get(k):
-            print "missing data for", k
-            missing = True
-    if missing:
-        print "have data\n", template_data
-        return
-    else:
-        print "running with\n", template_data
+            print "Missing data for", k, template_data
+            return
+
+    print "Running with\n", template_data
 
     # Render and restart as needed
     for n in ('apiserver', 'controller-manager', 'scheduler'):
-        render_file(n, template_data)
-        host.service_restart(n)
+        if render_file(n, template_data) or not host.service_running(n):
+            host.service_restart(n)
 
-    if render_file('nginx', template_data,
-                   'conf.tmpl', '/etc/nginx/sites-enabled/default'):
+    if render_file(
+            'nginx', template_data,
+            'conf.tmpl', '/etc/nginx/sites-enabled/default') or \
+            not host.service_running('nginx'):
         host.service_reload('nginx')
 
     # Send api endpoint to minions
-    rel = hookenv.relation_id()
-    print "relation id", rel
-    if rel and rel.startswith("minions-api:"):
+    notify_minions()
+
+
+def notify_minions():
+    print("Notify minions.")
+    for r in hookenv.relation_ids('minions-api'):
         hookenv.relation_set(
-            hostname=hookenv.unit_private_ip(), port=8080)
+            r,
+            hostname=hookenv.unit_private_ip(),
+            port=8080)
 
 
 def get_template_data():

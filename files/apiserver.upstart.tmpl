@@ -10,8 +10,7 @@ kill timeout 30 # wait 30s between SIGTERM and SIGKILL.
 exec /usr/local/bin/apiserver \
      -address=%(api_bind_address)s \
      -etcd_servers=%(etcd_servers)s \
-     -logtostderr=true \
-     -machines=%(minions)s
+     -logtostderr=true
 
 
 
