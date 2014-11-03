@@ -63,7 +63,7 @@ def get_template_data():
             get_rel_hosts('etcd', rels, ('hostname', 'port')))])
     template_data['minions'] = ",".join(get_rel_hosts('minions-api', rels))
 
-    template_data['api_bind_address'] = _bind_addr(hookenv.unit_private_ip)
+    template_data['api_bind_address'] = _bind_addr(hookenv.unit_private_ip())
     template_data['bind_address'] = "127.0.0.1"
     template_data['api_server_address'] = "http://%s:%s" % (
         hookenv.unit_private_ip(), 8080)
