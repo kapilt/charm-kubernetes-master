@@ -3,6 +3,7 @@
 
 """
 import os
+import socket
 import sys
 
 from charmhelpers.core import hookenv, host
@@ -61,7 +62,16 @@ def get_template_data():
         "http://%s:%s" % (s[0], s[1]) for s in sorted(
             get_rel_hosts('etcd', rels, ('hostname', 'port')))])
     template_data['minions'] = ",".join(get_rel_hosts('minions-api', rels))
-    template_data['api_bind_address'] = hookenv.unit_private_ip()
+    # A bit misnamed this will be an address in some cases, but we need need
+    # to bind to an ip so try to resolve it.
+    private_address = hookenv.unit_private_ip()
+    if not private_address.replace('.', '').isdigit():
+        try:
+            private_address = socket.gethostbyname(private_address)
+        except socket.error:
+            raise ValueError("Could not resolve private address")
+
+    template_data['api_bind_address'] = private_address
     template_data['bind_address'] = "127.0.0.1"
     template_data['api_server_address'] = "http://%s:%s" % (
         hookenv.unit_private_ip(), 8080)
